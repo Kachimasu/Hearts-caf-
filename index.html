@@ -1,249 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hearts Café</title>
+    <title>Hearts Café ❤️ | Talk • Chill • Community</title>
+    <style>
+        /* CSS Styles */
+        :root {
+            --bg-color: #1a1a1d;
+            --container-bg: #26262b;
+            --accent-color: #ff4d6d;
+            --text-main: #f0f0f0;
+            --text-muted: #a0a0a5;
+        }
 
-    <link rel="stylesheet" href="style.css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    <script src="https://kit.fontawesome.com/6d2ea823d0.js" crossorigin="anonymous"></script>
+        /* Header Section */
+        header {
+            width: 100%;
+            text-align: center;
+            padding: 80px 20px 40px;
+            background: linear-gradient(180deg, rgba(26,26,29,0) 0%, var(--bg-color) 100%), 
+                        url('1000066211.jpg') center/cover no-repeat;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .header-content h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .header-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: 40px auto;
+            background-color: var(--container-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        /* About Section */
+        .about-text {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(255, 77, 109, 0.05);
+            border-radius: 0 10px 10px 0;
+            text-align: left;
+        }
+
+        /* Owners Section */
+        .owners-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .owner-card {
+            background-color: #1a1a1d;
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .owner-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .owner-role {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .owner-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Join Button */
+        .join-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 40px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: background-color 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .join-btn:hover {
+            background-color: #e63e5c;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .credits {
+            color: var(--accent-color);
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 600px) {
+            .header-content h1 { font-size: 2rem; }
+            .container { padding: 20px; }
+            .owner-card { width: 100%; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="bg-animation"></div>
-
-<header>
-
-<nav class="navbar">
-
-<h2 class="logo">❤️ Hearts Café</h2>
-
-<ul class="nav-links">
-<li><a href="#about">About</a></li>
-<li><a href="#values">Values</a></li>
-<li><a href="#features">Features</a></li>
-<li><a href="#owners">Owners</a></li>
-<li><a href="#stats">Stats</a></li>
-</ul>
-
-<a class="join-btn"
-href="https://discord.gg/heartscafe"
-target="_blank">
-Join Server
-</a>
-
-</nav>
-
-</header>
-
-<section class="hero">
-
-<div class="glass hero-box reveal">
-
-<h1>Welcome to Hearts Café ❤️</h1>
-
-<p>
-
-A comfortable, friendly and trustworthy Discord community where everyone can relax, make friends, talk, chill and enjoy great conversations.
-
-</p>
-
-<a href="https://discord.gg/heartscafe"
-target="_blank"
-class="main-btn">
-
-Join Hearts Café
-
-</a>
-
-</div>
-
-</section>
-
-<section id="about" class="section reveal">
-
-<h2>About Hearts Café</h2>
-
-<div class="glass">
-
-<p>
-
-Hearts Café is a welcoming Discord community built for people who enjoy meaningful conversations, gaming, music, fun events and making genuine friendships.
-
-Our goal is to create a safe and respectful environment where everyone feels valued.
-
-Whether you're here to meet new people or simply relax after a long day, Hearts Café is your home.
-
-</p>
-
-</div>
-
-</section>
-
-<section id="values" class="section reveal">
-
-<h2>Community Values</h2>
-
-<div class="cards">
-
-<div class="glass card">
-<h3>❤️ Respect</h3>
-<p>Everyone deserves kindness and respect.</p>
-</div>
-
-<div class="glass card">
-<h3>🤝 Trust</h3>
-<p>We believe in honesty and genuine friendships.</p>
-</div>
-
-<div class="glass card">
-<h3>🛡 Safety</h3>
-<p>Our staff keeps the community safe and welcoming.</p>
-</div>
-
-</div>
-
-</section>
-
-<section id="features" class="section reveal">
-
-<h2>Features</h2>
-
-<div class="cards">
-
-<div class="glass card">
-<h3>💬 Active Chats</h3>
-</div>
-
-<div class="glass card">
-<h3>🎮 Gaming</h3>
-</div>
-
-<div class="glass card">
-<h3>🎵 Music</h3>
-</div>
-
-<div class="glass card">
-<h3>🎉 Events</h3>
-</div>
-
-<div class="glass card">
-<h3>🌍 Friendly Community</h3>
-</div>
-
-<div class="glass card">
-<h3>⭐ Helpful Staff</h3>
-</div>
-
-</div>
-
-</section>
-
-<section id="owners" class="section reveal">
-
-<h2>Our Owners</h2>
-
-<div class="cards">
-
-<div class="glass owner-card">
-
-<h3>Aldo Bhutia</h3>
-
-<p>Owner</p>
-
-</div>
-
-<div class="glass owner-card">
-
-<h3>Atomic Oxygen</h3>
-
-<p>(Kachimasu)</p>
-
-</div>
-
-<div class="glass owner-card">
-
-<h3>Cybii</h3>
-
-<p>Owner</p>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="section reveal">
-
-<h2>Trust & Safety</h2>
-
-<div class="glass">
-
-<p>
-
-Our moderation team works hard to maintain a respectful and welcoming environment.
-
-Every member deserves a positive experience.
-
-Harassment, hate speech and toxicity are not tolerated.
-
-</p>
-
-</div>
-
-</section>
-
-<section id="stats" class="section reveal">
-
-<h2>Community Statistics</h2>
-
-<div class="cards">
-
-<div class="glass stat">
-
-<h1 class="counter" data-target="285">0</h1>
-
-<p>Members</p>
-
-</div>
-
-<div class="glass stat">
-
-<h1 class="counter" data-target="3">0</h1>
-
-<p>Owners</p>
-
-</div>
-
-<div class="glass stat">
-
-<h1 class="counter" data-target="24">0</h1>
-
-<p>Hours Active</p>
-
-</div>
-
-</div>
-
-</section>
-
-<footer>
-
-<p>
-
-Made with ❤️ by Atomic Oxygen (Kachimasu)
-
-</p>
-
-</footer>
-
-<script src="script.js"></script>
+    <!-- Header / Hero Section -->
+    <header>
+        <div class="header-content">
+            <h1 id="server-name">Hearts Café ❤️</h1>
+            <p>Talk • Chill • Community</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        
+        <!-- About Section -->
+        <h2 class="section-title">Welcome Home</h2>
+        <div class="about-text">
+            <p>Welcome to <strong>Hearts Café</strong>, your trusted digital sanctuary. We pride ourselves on offering a highly comfortable, safe, and welcoming environment for everyone. Whether you are looking to make new friends, engage in deep conversations, or simply chill after a long day, our community is built on trust and respect. Grab a seat, relax, and enjoy the vibe.</p>
+        </div>
+
+        <!-- Owners Section -->
+        <h2 class="section-title">Meet The Heart Kings</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">The dedicated owners keeping the café running smoothly.</p>
+        
+        <div class="owners-grid">
+            <div class="owner-card">
+                <span class="owner-role">Heart King 👑</span>
+                <div class="owner-name" style="color: #ff4d6d;">! Aloo Bhujia</div>
+            </div>
+            
+            <div class="owner-card">
+                <span class="owner-role">Heart King 👑</span>
+                <div class="owner-name" style="color: #ff4d6d;">! Atomic oxygen</div>
+            </div>
+            
+            <div class="owner-card">
+                <span class="owner-role">Heart King 👑</span>
+                <div class="owner-name" style="color: #d8b4e2;">Cybii</div>
+            </div>
+        </div>
+
+        <!-- Join Button -->
+        <button class="join-btn" onclick="joinServer()">Join Hearts Café</button>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made by <span class="credits">atomic oxygen / kachimasu</span></p>
+        <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.5;">© 2026 Hearts Café. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Simple interactive script for the join button
+        function joinServer() {
+            // You can replace the alert with your actual Discord invite link like this:
+            // window.location.href = "https://discord.gg/YOUR_INVITE_LINK";
+            alert("Ready to join the chillest server? Add your Discord invite link in the HTML code to connect users directly!");
+        }
+
+        // Add a soft fade-in effect when the page loads
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.style.opacity = "0";
+            document.body.style.transition = "opacity 1s ease-in";
+            
+            setTimeout(() => {
+                document.body.style.opacity = "1";
+            }, 100);
+        });
+    </script>
 
 </body>
 </html>
