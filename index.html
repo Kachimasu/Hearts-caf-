@@ -4,233 +4,463 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hearts Café ❤️ | Talk • Chill • Community</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS for layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        /* CSS Styles */
         :root {
-            --bg-color: #1a1a1d;
-            --container-bg: #26262b;
-            --accent-color: #ff4d6d;
-            --text-main: #f0f0f0;
-            --text-muted: #a0a0a5;
+            --bg-top: #0a0c1a;
+            --bg-mid: #111836;
+            --bg-bottom: #091324;
+            --accent-glow: #4cc9f0;
+            --heart-glow: #ff4d6d;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
 
-        * {
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100%;
+            height: 100%;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 50%, var(--bg-bottom) 100%);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
+        /* Fixed Canvas Background */
+        #star-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Content Wrapper to sit above canvas */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Navigation */
+        nav {
+            backdrop-filter: blur(10px);
+            background: rgba(10, 12, 26, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-join {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-join:hover {
+            border-color: var(--heart-glow);
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Floating Animation */
+        .float {
+            animation: floating 6s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* SVG Landscapes */
+        .landscape {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Constellation Map (Owners) */
+        .constellation-node {
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Header Section */
-        header {
-            width: 100%;
-            text-align: center;
-            padding: 80px 20px 40px;
-            background: linear-gradient(180deg, rgba(26,26,29,0) 0%, var(--bg-color) 100%), 
-                        url('1000066211.jpg') center/cover no-repeat;
-            border-bottom: 2px solid var(--accent-color);
+        .star-point {
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-glow);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+            animation: pulse-star 3s infinite alternate;
         }
 
-        .header-content h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        .star-point.heart {
+            box-shadow: 0 0 20px var(--heart-glow), 0 0 40px var(--heart-glow);
+            background: #ffe5ec;
         }
 
-        .header-content p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        @keyframes pulse-star {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 1; }
         }
 
-        /* Main Container */
-        .container {
-            max-width: 800px;
-            width: 90%;
-            margin: 40px auto;
-            background-color: var(--container-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            text-align: center;
+        .feature-icon {
+            color: var(--accent-glow);
+            filter: drop-shadow(0 0 8px rgba(76, 201, 240, 0.5));
         }
 
-        .section-title {
-            color: var(--accent-color);
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        /* About Section */
-        .about-text {
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            padding: 20px;
-            border-left: 4px solid var(--accent-color);
-            background-color: rgba(255, 77, 109, 0.05);
-            border-radius: 0 10px 10px 0;
-            text-align: left;
-        }
-
-        /* Owners Section */
-        .owners-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .owner-card {
-            background-color: #1a1a1d;
-            padding: 20px;
-            border-radius: 10px;
-            width: 200px;
-            border: 1px solid #333;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .owner-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-        }
-
-        .owner-role {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .owner-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        /* Join Button */
-        .join-btn {
-            display: inline-block;
-            margin-top: 40px;
-            padding: 15px 40px;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 30px;
-            transition: background-color 0.3s, transform 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .join-btn:hover {
-            background-color: #e63e5c;
-            transform: scale(1.05);
-        }
-
-        /* Footer */
-        footer {
-            margin-top: auto;
-            padding: 30px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .credits {
-            color: var(--accent-color);
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        @media (max-width: 600px) {
-            .header-content h1 { font-size: 2rem; }
-            .container { padding: 20px; }
-            .owner-card { width: 100%; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Header / Hero Section -->
-    <header>
-        <div class="header-content">
-            <h1 id="server-name">Hearts Café ❤️</h1>
-            <p>Talk • Chill • Community</p>
-        </div>
-    </header>
+    <!-- The Animated Starry Background -->
+    <canvas id="star-canvas"></canvas>
 
     <!-- Main Content -->
-    <div class="container">
+    <div class="content-wrapper">
         
-        <!-- About Section -->
-        <h2 class="section-title">Welcome Home</h2>
-        <div class="about-text">
-            <p>Welcome to <strong>Hearts Café</strong>, your trusted digital sanctuary. We pride ourselves on offering a highly comfortable, safe, and welcoming environment for everyone. Whether you are looking to make new friends, engage in deep conversations, or simply chill after a long day, our community is built on trust and respect. Grab a seat, relax, and enjoy the vibe.</p>
-        </div>
+        <!-- Navigation -->
+        <nav class="fixed w-full top-0 z-50 px-6 py-4 flex justify-between items-center transition-all duration-300" id="navbar">
+            <div class="flex items-center gap-2 cursor-pointer">
+                <i data-lucide="heart" class="text-[#ff4d6d] w-6 h-6 fill-current float"></i>
+                <span class="font-semibold text-lg tracking-wider text-gradient">Hearts Café</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-light text-gray-300">
+                <a href="#home" class="hover:text-white transition-colors">Home</a>
+                <a href="#vibe" class="hover:text-white transition-colors">The Vibe</a>
+                <a href="#kings" class="hover:text-white transition-colors">Heart Kings</a>
+            </div>
+            <button class="btn-join px-6 py-2 rounded-full text-sm font-medium">
+                Join Server
+            </button>
+        </nav>
 
-        <!-- Owners Section -->
-        <h2 class="section-title">Meet The Heart Kings</h2>
-        <p style="color: var(--text-muted); margin-bottom: 20px;">The dedicated owners keeping the café running smoothly.</p>
-        
-        <div class="owners-grid">
-            <div class="owner-card">
-                <span class="owner-role">Heart King 👑</span>
-                <div class="owner-name" style="color: #ff4d6d;">! Aloo Bhujia</div>
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-screen flex flex-col justify-center px-8 md:px-20 pt-20">
+            <div class="max-w-3xl z-10">
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6 reveal text-gradient">
+                    Explore the vibe <br>you want to live.
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 font-light mb-10 reveal delay-100 max-w-2xl">
+                    Put your heart at rest. A comfortable and trustable sanctuary for deep talks, chill moments, and true community.
+                </p>
+                <button class="bg-[#ff4d6d] hover:bg-[#ff2a55] text-white px-8 py-3 rounded-full font-semibold transition-all shadow-[0_0_20px_rgba(255,77,109,0.4)] hover:shadow-[0_0_30px_rgba(255,77,109,0.6)] hover:-translate-y-1 reveal delay-200">
+                    Get in Touch
+                </button>
             </div>
-            
-            <div class="owner-card">
-                <span class="owner-role">Heart King 👑</span>
-                <div class="owner-name" style="color: #ff4d6d;">! Atomic oxygen</div>
-            </div>
-            
-            <div class="owner-card">
-                <span class="owner-role">Heart King 👑</span>
-                <div class="owner-name" style="color: #d8b4e2;">Cybii</div>
-            </div>
-        </div>
 
-        <!-- Join Button -->
-        <button class="join-btn" onclick="joinServer()">Join Hearts Café</button>
+            <!-- Stylized CSS/SVG Silhouette Hills -->
+            <svg class="landscape" viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#091324" fill-opacity="1" d="M0,256L48,261.3C96,267,192,277,288,272C384,267,480,245,576,213.3C672,181,768,139,864,133.3C960,128,1056,160,1152,181.3C1248,203,1344,213,1392,218.7L1440,224L1440,400L1392,400C1344,400,1248,400,1152,400C1056,400,960,400,864,400C768,400,672,400,576,400C480,400,384,400,288,400C192,400,96,400,48,400L0,400Z"></path>
+                <path fill="#060c17" fill-opacity="1" d="M0,320L60,309.3C120,299,240,277,360,282.7C480,288,600,320,720,336C840,352,960,352,1080,325.3C1200,299,1320,245,1380,218.7L1440,192L1440,400L1380,400C1320,400,1200,400,1080,400C960,400,840,400,720,400C600,400,480,400,360,400C240,400,120,400,60,400L0,400Z"></path>
+            </svg>
+        </section>
+
+        <!-- Features Section -->
+        <section id="vibe" class="py-24 px-8 md:px-20 relative bg-[#060c17]">
+            <h2 class="text-3xl font-light text-[#4cc9f0] mb-16 reveal">Café Advantage</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Feature 1 -->
+                <div class="reveal delay-100 group">
+                    <div class="mb-6 float">
+                        <i data-lucide="shield-check" class="w-12 h-12 feature-icon transition-transform group-hover:scale-110"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-white">Highly Trustable</h3>
+                    <p class="text-gray-400 font-light text-sm leading-relaxed">
+                        A heavily moderated, safe space. We prioritize the mental peace and security of every member in our community above all else.
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="reveal delay-200 group">
+                    <div class="mb-6 float" style="animation-delay: -2s;">
+                        <i data-lucide="coffee" class="w-12 h-12 feature-icon transition-transform group-hover:scale-110"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-white">Comfortable Vibe</h3>
+                    <p class="text-gray-400 font-light text-sm leading-relaxed">
+                        No drama, just pure aesthetic relaxation. Grab a virtual coffee, join a voice channel, and let the stress of the day melt away.
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="reveal delay-300 group">
+                    <div class="mb-6 float" style="animation-delay: -4s;">
+                        <i data-lucide="sparkles" class="w-12 h-12 feature-icon transition-transform group-hover:scale-110"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-white">Deep Connections</h3>
+                    <p class="text-gray-400 font-light text-sm leading-relaxed">
+                        More than just a server. Connect the dots with people worldwide, share stories, and see what a real digital friendship looks like.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Constellation (Owners) Section -->
+        <section id="kings" class="py-32 px-8 md:px-20 relative overflow-hidden bg-gradient-to-b from-[#060c17] to-[#0a0c1a]">
+            
+            <div class="max-w-2xl relative z-10">
+                <h4 class="text-[#4cc9f0] text-sm tracking-widest uppercase mb-4 reveal">The Heart Kings</h4>
+                <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-6 reveal delay-100">
+                    Connecting the dots.<br>
+                    <span class="font-light text-gray-300">The pillars of our community.</span>
+                </h2>
+                <p class="text-gray-400 font-light max-w-md reveal delay-200">
+                    Guided by three dedicated owners, Hearts Café remains a beacon in the dark sky of the internet. 
+                </p>
+            </div>
+
+            <!-- Constellation Graphic -->
+            <div class="mt-20 relative h-[400px] w-full max-w-4xl mx-auto reveal delay-300">
+                
+                <!-- SVG connecting lines -->
+                <svg class="absolute top-0 left-0 w-full h-full" style="z-index: 1;">
+                    <line x1="20%" y1="30%" x2="50%" y2="70%" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="5,5" />
+                    <line x1="50%" y1="70%" x2="80%" y2="20%" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="5,5" />
+                </svg>
+
+                <!-- Nodes -->
+                <div class="absolute w-full h-full" style="z-index: 2;">
+                    
+                    <!-- Owner 1 -->
+                    <div class="constellation-node absolute" style="top: 30%; left: 20%; transform: translate(-50%, -50%);">
+                        <div class="star-point heart"></div>
+                        <div class="bg-black/50 backdrop-blur px-4 py-2 rounded-lg border border-[#ff4d6d]/30 text-center">
+                            <p class="text-[#ff4d6d] font-bold text-lg">! Aloo Bhujia</p>
+                            <p class="text-xs text-gray-400">Heart King</p>
+                        </div>
+                    </div>
+
+                    <!-- Owner 2 -->
+                    <div class="constellation-node absolute" style="top: 70%; left: 50%; transform: translate(-50%, -50%);">
+                        <div class="star-point heart" style="animation-delay: -1s;"></div>
+                        <div class="bg-black/50 backdrop-blur px-4 py-2 rounded-lg border border-[#ff4d6d]/30 text-center">
+                            <p class="text-[#ff4d6d] font-bold text-lg">! Atomic oxygen</p>
+                            <p class="text-xs text-gray-400">Heart King</p>
+                        </div>
+                    </div>
+
+                    <!-- Owner 3 -->
+                    <div class="constellation-node absolute" style="top: 20%; left: 80%; transform: translate(-50%, -50%);">
+                        <div class="star-point" style="animation-delay: -2s; background: #d8b4e2; box-shadow: 0 0 20px #d8b4e2, 0 0 40px #d8b4e2;"></div>
+                        <div class="bg-black/50 backdrop-blur px-4 py-2 rounded-lg border border-[#d8b4e2]/30 text-center">
+                            <p class="text-[#d8b4e2] font-bold text-lg">Cybii</p>
+                            <p class="text-xs text-gray-400">Heart King</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-800 bg-[#060c17] py-8 text-center relative z-10">
+            <p class="text-gray-400 font-light text-sm">
+                Made with <i data-lucide="heart" class="inline w-3 h-3 text-[#ff4d6d] fill-current"></i> by 
+                <span class="text-white font-semibold tracking-wide">atomic oxygen / kachimasu</span>
+            </p>
+        </footer>
 
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>Made by <span class="credits">atomic oxygen / kachimasu</span></p>
-        <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.5;">© 2026 Hearts Café. All rights reserved.</p>
-    </footer>
-
-    <!-- JavaScript -->
+    <!-- Logic for Animations & Canvas -->
     <script>
-        // Simple interactive script for the join button
-        function joinServer() {
-            // You can replace the alert with your actual Discord invite link like this:
-            // window.location.href = "https://discord.gg/YOUR_INVITE_LINK";
-            alert("Ready to join the chillest server? Add your Discord invite link in the HTML code to connect users directly!");
+        // Initialize Icons
+        lucide.createIcons();
+
+        // --- SCROLL REVEAL ANIMATIONS ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+
+        // --- NAVBAR SCROLL EFFECT ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(6, 12, 23, 0.9)';
+                nav.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
+            } else {
+                nav.style.background = 'rgba(10, 12, 26, 0.4)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // --- 100% ANIMATED CANVAS STARFIELD (Twinkling & Shooting Stars) ---
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let stars = [];
+        let shootingStars = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Normal Star Class
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.5 + 0.1;
+                this.alpha = this.baseAlpha;
+                this.blinkSpeed = (Math.random() * 0.02) + 0.005;
+                this.blinkDir = Math.random() > 0.5 ? 1 : -1;
+            }
+            update() {
+                // Twinkle effect
+                this.alpha += this.blinkSpeed * this.blinkDir;
+                if (this.alpha <= 0.1 || this.alpha >= this.baseAlpha + 0.4) {
+                    this.blinkDir *= -1;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.fill();
+            }
         }
 
-        // Add a soft fade-in effect when the page loads
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.style.opacity = "0";
-            document.body.style.transition = "opacity 1s ease-in";
-            
-            setTimeout(() => {
-                document.body.style.opacity = "1";
-            }, 100);
-        });
-    </script>
+        // Shooting Star Class
+        class ShootingStar {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width * 1.5;
+                this.y = 0;
+                this.len = (Math.random() * 80) + 20;
+                this.speed = (Math.random() * 10) + 15;
+                this.size = (Math.random() * 1.5) + 0.5;
+                this.waitTime = Math.random() * 300; // wait before shooting
+                this.active = false;
+                this.angle = Math.PI / 4; // 45 degrees diagonal
+            }
+            update() {
+                if (!this.active) {
+                    this.waitTime--;
+                    if (this.waitTime <= 0) this.active = true;
+                    return;
+                }
+                this.x -= this.speed * Math.cos(this.angle);
+                this.y += this.speed * Math.sin(this.angle);
+                if (this.x < -100 || this.y > height + 100) {
+                    this.reset(); // loop back
+                }
+            }
+            draw() {
+                if (!this.active) return;
+                ctx.lineWidth = this.size;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + this.len * Math.cos(this.angle), this.y - this.len * Math.sin(this.angle));
+                // Gradient for the tail
+                let gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.len * Math.cos(this.angle), this.y - this.len * Math.sin(this.angle));
+                gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
+                gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+                ctx.strokeStyle = gradient;
+                ctx.stroke();
+            }
+        }
 
+        // Init Array
+        function initStars() {
+            stars = [];
+            let numStars = (width * height) / 3000; // Density
+            for (let i = 0; i < numStars; i++) {
+                stars.push(new Star());
+            }
+            shootingStars = [];
+            for (let i = 0; i < 3; i++) { // 3 shooting stars max at a time
+                shootingStars.push(new ShootingStar());
+            }
+        }
+        initStars();
+        window.addEventListener('resize', initStars);
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw background stars
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            // Draw shooting stars
+            shootingStars.forEach(sStar => {
+                sStar.update();
+                sStar.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+    </script>
 </body>
 </html>
+
